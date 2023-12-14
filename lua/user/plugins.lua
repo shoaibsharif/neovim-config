@@ -210,11 +210,11 @@ use({
     require('user/plugins/treesitter')
   end,
 })
-
+use 'ThePrimeagen/vim-be-good'
 -- Language Server Protocol.
 use {
   'VonHeikemen/lsp-zero.nvim',
-  branch = 'v1.x',
+  branch = 'v3.x',
   requires = {
     -- LSP Support
     { 'neovim/nvim-lspconfig' },
@@ -232,8 +232,9 @@ use {
     -- Snippets
     { 'L3MON4D3/LuaSnip' },
     { 'rafamadriz/friendly-snippets' },
-  }
+  },
 }
+
 -- Completion
 use({
   'hrsh7th/nvim-cmp',
@@ -248,6 +249,12 @@ use({
   },
   config = function()
     require('user/plugins/cmp')
+  end,
+})
+use({
+  "olrtg/nvim-emmet",
+  config = function()
+    vim.keymap.set({ "n", "v" }, '<leader>xe', require('nvim-emmet').wrap_with_abbreviation)
   end,
 })
 
