@@ -232,8 +232,14 @@ use {
     -- Snippets
     { 'L3MON4D3/LuaSnip' },
     { 'rafamadriz/friendly-snippets' },
+
+    -- Lint and Formatting
+    { "jose-elias-alvarez/null-ls.nvim" },
+    { "jay-babu/mason-null-ls.nvim" },
   },
 }
+
+use({ 'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async' })
 
 -- Completion
 use({

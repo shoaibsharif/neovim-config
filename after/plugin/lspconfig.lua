@@ -1,10 +1,24 @@
 local lsp = require("lsp-zero")
 local lspconfig = require("lspconfig")
 
+vim.o.foldcolumn = '1'
+vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+
+require('ufo').setup()
+
+-- Using ufo provider need remap `zR` and `zM`.
+vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+
 lsp.preset("recommended")
 
 lsp.on_attach(function(client, bufnr)
   local opts = { buffer = bufnr, remap = false }
+
+  lsp.default_keymaps({ buffer = bufnr })
 
   vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
   vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
@@ -18,6 +32,17 @@ lsp.on_attach(function(client, bufnr)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
   vim.keymap.set({ 'n', 'x' }, 'gqq', function() vim.lsp.buf.format({ async = false, timeout_ms = 10000 }) end, opts)
 end)
+
+lsp.set_server_config({
+  capabilities = {
+    textDocument = {
+      foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true
+      }
+    }
+  }
+})
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
@@ -61,6 +86,28 @@ lsp.configure('volar', {
   -- This drastically improves the responsiveness of diagnostic updates on change
   filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
 })
+
+-- null-ls
+require('null-ls').setup({
+  sources = {
+    require('null-ls').builtins.diagnostics.eslint_d.with({
+      condition = function(utils)
+        return utils.root_has_file({ '.eslintrc.js' })
+      end,
+    }),
+    require('null-ls').builtins.diagnostics.trail_space.with({ disabled_filetypes = { 'NvimTree' } }),
+    require('null-ls').builtins.formatting.eslint_d.with({
+      condition = function(utils)
+        return utils.root_has_file({ '.eslintrc.js' })
+      end,
+    }),
+    require('null-ls').builtins.formatting.prettierd,
+  },
+})
+
+require('mason-null-ls').setup({ automatic_installation = true })
+
+
 
 lsp.set_sign_icons({
   error = '',
