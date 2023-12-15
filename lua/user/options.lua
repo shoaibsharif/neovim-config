@@ -5,6 +5,9 @@ vim.opt.softtabstop = 4
 vim.opt.autoindent = true
 
 vim.opt.smartindent = true
+vim.opt.linebreak = true
+vim.opt.breakindent = true
+vim.opt.breakat = ' ^!@*+;,/?'
 vim.opt.wrap = true
 vim.opt.relativenumber = true
 vim.opt.number = true
