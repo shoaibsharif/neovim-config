@@ -15,6 +15,7 @@ require('nvim-treesitter.configs').setup({
         ['ia'] = '@parameter.inner',
         ['aa'] = '@parameter.outer',
       },
+      -- include_surrounding_whitespace = true,
     }
   }
 })

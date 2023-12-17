@@ -234,12 +234,33 @@ use {
     { 'rafamadriz/friendly-snippets' },
 
     -- Lint and Formatting
-    { "jose-elias-alvarez/null-ls.nvim" },
+    { "nvimtools/none-ls.nvim" },
     { "jay-babu/mason-null-ls.nvim" },
   },
 }
 
-use({ 'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async' })
+use({
+  'kevinhwang91/nvim-ufo',
+  requires = {
+    'kevinhwang91/promise-async',
+    {
+      "luukvbaal/statuscol.nvim",
+      config = function()
+        local builtin = require("statuscol.builtin")
+        require("statuscol").setup(
+          {
+            relculright = true,
+            segments = {
+              { text = { builtin.foldfunc },    click = "v:lua.ScFa" },
+              { text = { "%s" },                click = "v:lua.ScSa" },
+              { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" }
+            }
+          }
+        )
+      end
+    }
+  }
+})
 
 -- Completion
 use({
