@@ -88,6 +88,7 @@ lsp.configure('volar', {
   filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
 })
 
+local null_ls = require("null-ls")
 -- null-ls
 require('null-ls').setup({
   sources = {
@@ -103,6 +104,11 @@ require('null-ls').setup({
       end,
     }),
     require('null-ls').builtins.formatting.prettierd,
+    null_ls.builtins.formatting.gofmt,
+    null_ls.builtins.formatting.goimports,
+    null_ls.builtins.code_actions.impl,
+    null_ls.builtins.formatting.rustfmt
+
   },
 })
 
